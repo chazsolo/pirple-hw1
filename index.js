@@ -37,12 +37,7 @@ const server = (req, res) => {
     // route the request to the handler specified in the router
     chosenHandler(data, (statusCode, payload) => {
       statusCode = Number.isInteger(statusCode) ? statusCode : 200;
-
-      payload = {
-        message: statusCode === 200
-          ? 'Hello! Soli Deo Gloria!'
-          : 'Oops! That route doesn\'t exist!'
-      };
+      payload = typeof payload === 'object' ? payload : {};
 
       // convert the payload to a string
       const payloadString = JSON.stringify(payload);
@@ -62,10 +57,10 @@ http
 // define the handlers
 const handlers = {
   hello(data, callback) {
-    callback(200);
+    callback(200, { message: 'Hello! Soli Deo Gloria!' });
   },
   notFound(data, callback) {
-    callback(404);
+    callback(404, { message: 'Oops! That route doesn\'t exist!' });
   },
 };
 
